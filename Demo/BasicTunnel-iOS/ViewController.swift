@@ -76,9 +76,9 @@ YDQ8z9v+DMO6iwyIDRiU
 """)
 
 extension ViewController {
-    private static let appGroup = "group.com.algoritmico.ios.demo.BasicTunnel"
+    private static let appGroup = "group.com.foneweb.ios.demo.BasicTunnel"
     
-    private static let tunnelIdentifier = "com.algoritmico.ios.demo.BasicTunnel.Extension"
+    private static let tunnelIdentifier = "com.foneweb.ios.demo.BasicTunnel.Extension"
     
     private func makeProtocol() -> NETunnelProviderProtocol {
         let server = textServer.text!
@@ -87,8 +87,10 @@ extension ViewController {
         let hostname = ((domain == "") ? server : [server, domain].joined(separator: "."))
         let port = UInt16(textPort.text!)!
         let credentials = OpenVPN.Credentials(textUsername.text!, textPassword.text!)
-        
+
+
         var sessionBuilder = OpenVPN.ConfigurationBuilder()
+
         sessionBuilder.ca = ca
         sessionBuilder.cipher = .aes128cbc
         sessionBuilder.digest = .sha1
@@ -98,10 +100,12 @@ extension ViewController {
         let socketType: SocketType = switchTCP.isOn ? .tcp : .udp
         sessionBuilder.endpointProtocols = [EndpointProtocol(socketType, port)]
         sessionBuilder.usesPIAPatches = true
+
         var builder = OpenVPNTunnelProvider.ConfigurationBuilder(sessionConfiguration: sessionBuilder.build())
         builder.mtu = 1350
         builder.shouldDebug = true
         builder.masksPrivateData = false
+        builder.shouldDebug=true
         
         let configuration = builder.build()
         return try! configuration.generatedTunnelProtocol(
@@ -198,8 +202,12 @@ class ViewController: UIViewController, URLSessionDataDelegate {
                 return
             }
             let session = self.currentManager?.connection as! NETunnelProviderSession
+            //dump(self.currentManager,name:"self.currentManager")
             do {
                 try session.startTunnel()
+                
+                session.
+                
             } catch let e {
                 print("error starting tunnel: \(e)")
             }

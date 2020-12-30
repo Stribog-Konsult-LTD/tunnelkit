@@ -37,5 +37,10 @@
 
 import TunnelKit
 
+
 class PacketTunnelProvider: OpenVPNTunnelProvider {
+    override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
+            print("ebasi mamata")
+        super.startTunnel(options: options, completionHandler: completionHandler)
+    }
 }
